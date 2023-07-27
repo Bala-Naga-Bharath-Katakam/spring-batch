@@ -25,6 +25,10 @@ public class BatchController {
     private Job databaseMigrationChunkJob;
 
     @Autowired
+    @Qualifier("csvBatchProcessor")
+    private Job csvBatchProcessorJob;
+
+    @Autowired
     private JobLauncher jobLauncher;
 
     @PostMapping("/start")
@@ -45,6 +49,17 @@ public class BatchController {
         jobParameterMap.put("currentTime", new JobParameter(System.currentTimeMillis()));
         JobParameters jobParameters=new JobParameters(jobParameterMap);
         JobExecution jobExecution = jobLauncher.run(databaseMigrationChunkJob, jobParameters);
+
+        return jobExecution.getStatus();
+
+    }
+
+    @PostMapping("/csvBatchProcessor/start")
+    public BatchStatus csvBatchProcessor() throws Exception {
+        Map<String, JobParameter> jobParameterMap = new HashMap<>();
+        jobParameterMap.put("currentTime", new JobParameter(System.currentTimeMillis()));
+        JobParameters jobParameters=new JobParameters(jobParameterMap);
+        JobExecution jobExecution = jobLauncher.run(csvBatchProcessorJob, jobParameters);
 
         return jobExecution.getStatus();
 
