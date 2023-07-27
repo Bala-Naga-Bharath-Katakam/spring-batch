@@ -59,7 +59,7 @@ public class CSVFileBatchConfig {
     public FlatFileItemReader<StudentCsv> fileReader(){
         FlatFileItemReader<StudentCsv> flatFileItemReader=new FlatFileItemReader<>();
 
-        flatFileItemReader.setResource(new FileSystemResource("InputFiles/students.csv"));
+        flatFileItemReader.setResource(new FileSystemResource("src/main/resources/students.csv"));
 
         DefaultLineMapper<StudentCsv> defaultLineMapper = new DefaultLineMapper<>();
 
